@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styleCart.css">
+    <title>Cart</title>
+</head>
+<body>
+<%-include("parts/navbar")%>
+
+    <div style="margin-top: 50px;" class="container">
+            <h3>Customer Address</h3>
+            <br>
+            <form action="/order" method="POST">
+                <input type="text" name="address" class="form-control" placeholder="Enter your address">
+                <input style="margin-top: 50px;" id="btn-card" type="submit" value="Verify Order" class="btn btn-lg">
+            </form>
+    </div>
+
+<%-include("parts/footer")%>

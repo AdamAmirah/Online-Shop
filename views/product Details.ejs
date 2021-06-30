@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <title><%=product.name%> Details</title>
+</head>
+<body>
+
+<%- include("parts/navbar")  %>
+
+<div class="container">
+    <% if(!product){%>
+        <div style= "margin-top: 20px;" class="alert alert-danger">This product does not exist</div>
+    <% } else { %>
+        <div style="margin-top: 50px;  " class="row justify-content-center">
+            <div  class="col-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="/<%=product.image %> " class="card-img-top" alt="...">
+                        <div class="card-body">
+                           <form action="/cart" method="POST">
+                               <input type="number" name="amount" id="form-control">
+                               <input type="hidden" name="name" value="<%=product.name%>">
+                               <input type="hidden" name="price" value="<%=product.price%> ">
+                               <input type="hidden" name="productId" value="<%=product._id%> ">
+                               <input type="hidden" name="image" value="<%=product.image%> ">
+                               <input type="hidden" name="redirectTo" value="/product/<%=product._id%>">
+                               <input type="submit" value="Add to cart"  id = "btn-card" class="btn btn-warning btn-lg">
+                            </form>
+                           </div>
+                       </div>
+                  </div>
+                  <div class="col-4">
+                    <h3><%=product.name%></h3>
+                    <h5>Price: <%=product.price%> $ </h5>
+                    <p><%=product.description%></p>
+                </div>  
+    <% } %> 
+  
+</div>
+
+<%- include("parts/footer")  %> 

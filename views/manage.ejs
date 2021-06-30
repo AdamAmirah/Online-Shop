@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styleCart.css">
+    <title>Manage Orders</title>
+</head>
+<body>
+<%-include("parts/navbar")%>
+
+    <div style="margin-top: 30px;" class="container">
+        <% let state= ['completed', 'sent' , 'pending'] %> 
+        <form id= "filter" action="/admin/orders" method="GET">
+            <select style="height: 50px;" name="statusFilter" class="form-control">
+                <option value="all">All</option>
+                <% for(let k= 0; k<state.length; k++){ %>
+                    <option value="<%=state[k] %>"><%= state[k]%> </option>
+                <% } %>  
+            </select>
+            <input id="btn-card" type="submit" class="btn btn-lg" value="Filter">
+        </form>
+        
+        <%if(orders.length === 0) {%> 
+            <p class="alert alert-danger">No Orders In This Category</p>
+        <%} else { %>
+          
+        <% for(let i=0; i<orders.length; i++) {%>
+            <table class="table table-striped">
+                <div style="display: flex; justify-content: flex-start;align-items: baseline;"> 
+                    <h3 style="margin-top: 30px;">Order No <%=i+1  %></h3>
+                    <form action="/admin/orders/save" method="POST"> 
+                        <input type="hidden" name="orderId" value="<%=orders[i]._id%>">
+                            <select style="border-color: transparent;margin-left: 10px;width: 100px;height: 39px;" name="status" class="form-control">
+                                <option value="all"><%=orders[i].status%></option>
+                                <% for(let k= 0; k<state.length; k++){ %>
+                                    <% if(state[k]!==orders[i].status){ %> 
+                                        <option value="<%=state[k] %>"><%= state[k]%> </option>
+                                    <% } %> 
+                                <% } %>  
+                            </select>
+                        <input style="margin-left: 10px;" id="btn-card" type="submit" value="Save"class="btn">
+                    </form>
+                </div>
+             
+                <thead>
+                    <th scope="col">No</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Cost</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Time</th>
+                </thead>
+                <tbody>
+                    <%for(let j=0; j<orders[i].product.length; j++) { %> 
+                        <tr>
+                            <th scope="row"><%=j+1 %> </th>
+                            <% for( let k = 0; k < users.length; k++ ) { %>
+                                   <% if(users[k]._id==orders[i].userId){ %>
+                                        <td> <%= users[k].email %> </td>
+                                        <% break %> 
+                                   <% } %> 
+                            <% } %>
+                            <td> <%= orders[i].product[j].name %> </td>
+                            <td> <%= orders[i].product[j].amount %> </td>
+                            <td><%= orders[i].product[j].price  * orders[i].product[j].amount %> </td>
+                            <td><%=orders[i].address %> </td>
+                            <td><%=orders[i].timestamp%> </td>
+                         </tr>
+                    <% } %> 
+                </tbody>
+            </table>
+                      
+                <% } %>                   
+
+            <%} %> 
+    </div>
+
+<%-include("parts/footer")%>

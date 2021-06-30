@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styleCart.css">
+    <title>Orders</title>
+</head>
+<body>
+<%-include("parts/navbar")%>
+
+    <div style="margin-top: 30px;" class="container">
+        <%if(orders.length === 0) {%> 
+            <p class="alert alert-danger">There is no orders</p>
+        <%} else { %>
+        <% for(let i=0; i<orders.length; i++) {%>
+            <table class="table table-striped">
+                <thead>
+                    <th scope="col">No</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Time</th>
+                    <th scope="col"></th>
+                </thead>
+                <tbody>
+                        <%  for(let j=0; j<orders[i].product.length; j++) { %> 
+                        <tr>
+                            <th scope="row"><%=j+1 %> </th>
+                            <td> <%= orders[i].product[j].name %> </td>
+                            <td> <img src="<%= orders[i].product[j].image %>" alt=""></td>
+                            <td><%= orders[i].product[j].price  * orders[i].product[j].amount %> </td>
+                            <td><%=orders[i].product[j].amount %> </td>
+                            <td><%=orders[i].address %> </td>
+                            <td><%=orders[i].status %> </td>
+                            <td><%=orders[i].timestamp%> </td>
+                    </tr>
+                    <% } %> 
+                </tbody>
+            </table>
+                    <form action="/order/cancel" method="POST">
+                     
+                            <input type="hidden" name="status" value="<%=orders[i].status%>">
+                            <input type="hidden" name="orderId" value="<%=orders[i]._id%>">
+                            <input id="btn-card-danger"  type="submit" value="Cancel"class="btn btn-lg">
+                   </form>
+                <% } %>  
+                    
+
+            <%} %> 
+     <%if(orders.length !== 0) {%> 
+        <form style="text-align: center;" method="POST">
+            <br><br>
+            <input id="btn-card-danger"  type="submit" value="Cancel All"  formaction= "/order/cancelAll" class="btn btn-lg">
+        </form>
+        <br>
+    <% } %> 
+    </div>
+
+<%-include("parts/footer")%>

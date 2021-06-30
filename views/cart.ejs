@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styleCart.css">
+    <title>Cart</title>
+</head>
+<body>
+<%-include("parts/navbar")%>
+
+    <div style="margin-top: 30px;" class="container">
+        <% if (validationError) { %> 
+            <p class="alert alert-danger"><%=validationError.msg %> </p>
+        <% } %> 
+        <%if(items.length === 0) {%> 
+            <p class="alert alert-danger">There is no items</p>
+        <%} else { %>
+            <table class="table table-striped">
+                <thead>
+                    <th scope="col">No</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Total</th>
+                    <th scope="col"></th>
+                </thead>
+                <tbody>
+                    <% for(let i=0; i<items.length; i++) {%>
+                        <tr>
+                            <th  scope="row"><%=i+1 %> </th>
+                            <td> <%= items[i].name %> </td>
+                            <td> <img src="<%= items[i].image %>" alt=""></td>
+                            <td><%= items[i].price  %> </td>
+                            <form method="POST">
+                                <td>
+                                    <input type="text" name="amount" value="<%=items[i].amount %>" id="form-control">
+                                </td>
+                                <td><%= items[i].price *  items[i].amount%> </td>
+                                <td>
+                                    <input type="hidden" name="cartId" value="<%=items[i]._id %>">
+                                    <input id="btn-card" type="submit" value="Save"  formaction= "/cart/save"  class="btn btn-lg">
+                                    <input id="btn-card-danger" type="submit" value="Delete"  formaction= "/cart/delete" class="btn btn-lg">
+                                </td>
+                        </form>
+                    </tr>
+                    <% } %>  
+                </tbody>
+            </table>
+        <% } %>  
+        <%if(items.length !== 0) {%> 
+        <form method="POST">
+            <input id="btn-card" type="submit" value="Checkout" formmethod="GET" formaction= "/verify"  class="btn btn-lg">
+            <input id="btn-card-danger" type="submit" value="Delete All"  formaction= "/cart/deleteAll" class="btn btn-lg" >
+        </form>
+      <% } %> 
+    </div>
+
+<%-include("parts/footer")%>

@@ -1,0 +1,49 @@
+<%- include("parts/header")  %> 
+<%- include("parts/navbar")  %> 
+
+<div style="margin-top: 50px;" class="container text-center">
+    <h3 style="margin-bottom: 30px;">Add Product</h3>
+    <form action="/admin/add" method="POST"  enctype="multipart/form-data">
+        <input style="margin-bottom: 30px;" type="text" name="name" class="form-control" placeholder="Name">
+        <% let nameError = validationErrors.find(err=>err.param === 'name') %>
+        <% if(nameError){ %>
+            <p class="alert alert-danger">
+                <%= nameError.msg %> 
+            </p>
+        <% } %>  
+        
+        <input  style="margin-bottom: 30px;" type="number" name="price" class="form-control" placeholder="Price">
+        <% let priceError = validationErrors.find(err=>err.param === 'price') %>
+        <% if(priceError){ %>
+            <p class="alert alert-danger">
+                <%= priceError.msg %> 
+            </p>
+        <% } %> 
+
+        <input  style="margin-bottom: 30px;" type="text" name="description" class="form-control" placeholder="Description">
+        <% let DescriptionError = validationErrors.find(err=>err.param === 'description') %>
+        <% if(DescriptionError){ %>
+            <p class="alert alert-danger">
+                <%= DescriptionError.msg %> 
+            </p>
+        <% } %> 
+
+        <select  style="margin-bottom: 30px;" style="height: 50px;" name="category" class="form-control">
+            <option value="Bags">Bags</option>
+            <option value="T-shirts">T-shirts</option>
+            <option value="Pants">Pants</option>
+            <option value="Shoes">Shoes</option>
+        </select>
+        
+        <input style="margin-bottom: 30px;" type="file" name="image" class="form-control" placeholder="Image">
+        <% let imageError = validationErrors.find(err=>err.param === 'image') %>
+        <% if(imageError){ %>
+            <p class="alert alert-danger">
+                <%= imageError.msg %> 
+            </p>
+        <% } %> 
+        <input  id="btn-card" type="submit" value="Add Product" class="btn btn-primary">
+
+    </form>
+</div>
+<%- include("parts/footer")  %> 
